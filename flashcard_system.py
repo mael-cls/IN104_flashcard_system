@@ -1,10 +1,4 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
 
-
-@author: mael
-"""
 import pickle
 import random
 from datetime import datetime
@@ -52,13 +46,13 @@ def load_card(fichier) : #charge les cartes enregistrées dans le fichier card_p
     pickle_card.close
     return(card) 
     
-def add_card(all_card, card_info):
+def add_card(all_card, card_info): #ajoute une carte à la liste all_card
         
     new_card=FlashCard(card_info[0], card_info[1],card_info[2],card_info[3])
     all_card.append(new_card)
         
     
-def edit_flashcard(card_to_edit, new_info):
+def edit_flashcard(card_to_edit, new_info): #permet d'éditer les info d'une carte
     
     card_to_edit.title=new_info[0]
     card_to_edit.topside=new_info[1]
