@@ -66,7 +66,7 @@ def edit_flashcard(card_to_edit, new_info):
     card_to_edit.subject=new_info[3]
     card_to_edit.date_last_review=datetime.date()
     
-#Cette partie de créer les paquets de cartes, elle n'est ulisée qu'une seule fois pour chaque paquet
+#Cette partie permet de créer les paquets de cartes, elle n'est ulisée qu'une seule fois pour chaque paquet
  
 #Création d'un paquet sur les capitales d'Europe
 #save_card([],'capitales_europe')
@@ -97,7 +97,7 @@ def edit_flashcard(card_to_edit, new_info):
 ##print(all_card)
 #save_card(all_card,'capitales_asie')
 
-#Permet au jouur de choisir le paquet avec leuel jouer
+#Permet au joueur de choisir le paquet avec lequel jouer
 print("Choisissez un thème : 1-Les capitales d'Europe 2-Les capitales d'Asie")
 choice=int(input("....:"))
 while choice!=1 and choice !=2:
@@ -122,12 +122,12 @@ for i in range(nb_box):
 
 #Début de la partie concernant le déroulement du jeu
 
-#repartition des cartes en deux paquets, celle à revoir et les autres
+#répartition des cartes en deux paquets, celles à revoir et les autres
 card_to_review=[]
 card_not_review=[]
 for i in all_card :
     
-    if (timedelta(minutes=box_delay[i.location])+i.date_last_review < datetime.now() ):
+    if (timedelta(minutes=box_delay[i.location])+i.date_last_review < datetime.now() ): #ici le delais choisis entre les revus est en minutes ( peut être défini en jour en changeant "minutes" par "days")
         i.flag=True
         card_to_review.append(i)
     else : 
