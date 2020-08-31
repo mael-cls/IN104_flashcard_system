@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Aug 31 22:44:19 2020
+
+@author: mael
+"""
+
 
 import pickle
 import random
@@ -103,67 +111,89 @@ if choice ==1:
     fichier="capitales_europe"
 elif choice == 2 : 
     fichier="capitales_asie"
-
-    
-
 all_card=load_card(fichier) #charge le paquet choisi
+print("Que voulez vous faire : \n1-Jouer\n2-Ajouter une carte \n3-Modifier une carte existente \n4-Supprimer une carte")
+option=int(input("....:")) 
+if option == 1 :  
+
+   
 
 #Création des catégorie de boites, définissant le delais entre chaque rappels
-nb_box=4
-box_delay=[]
-for i in range(nb_box):
-    box_delay.append(i*2)
+    nb_box=4
+    box_delay=[]
+    for i in range(nb_box):
+        box_delay.append(i*2)
 #print(box_delay)
 
 
 #Début de la partie concernant le déroulement du jeu
 
 #répartition des cartes en deux paquets, celles à revoir et les autres
-card_to_review=[]
-card_not_review=[]
-for i in all_card :
-    
-    if (timedelta(minutes=box_delay[i.location])+i.date_last_review < datetime.now() ): #ici le delais choisis entre les revus est en minutes ( peut être défini en jour en changeant "minutes" par "days")
-        i.flag=True
-        card_to_review.append(i)
-    else : 
-        i.flag = False
-        card_not_review.append(i)
-print(len(card_to_review), "cartes à jouer ")
+    card_to_review=[]
+    card_not_review=[]
+    for i in all_card :
+        
+        if (timedelta(minutes=box_delay[i.location])+i.date_last_review < datetime.now() ): #ici le delais choisis entre les revus est en minutes ( peut être défini en jour en changeant "minutes" par "days")
+            i.flag=True
+            card_to_review.append(i)
+        else : 
+            i.flag = False
+            card_not_review.append(i)
+    print(len(card_to_review), "cartes à jouer ")
 
 
-random.shuffle(card_to_review) #mélange aléatoire des cartes
+    random.shuffle(card_to_review) #mélange aléatoire des cartes
 #le joueur joue sur les cartes séléctionnées
-score = 0
-for n in range( len(card_to_review) ):
-    card_to_review[n].date_last_review= datetime.now()
-    print("\n ",card_to_review[n].title, card_to_review[n].topside)
-    r=input("Réponse: ")
-    if r != card_to_review[n].bottomside :
-        card_to_review[n].location = 0
-        print("Mauvaise réponse, la réponse était " , card_to_review[n].bottomside)
-    elif card_to_review[n].location <  (len(box_delay)-1) :
-        card_to_review[n].location +=1
-        print("Bonne réponse")
-        score+=1
-        card_to_review[n].flag=False
-    else :
-        card_to_review[n].flag=False
-        print("Bonne réponse")
-        score+=1
+    score = 0
+    for n in range( len(card_to_review) ):
+        card_to_review[n].date_last_review= datetime.now()
+        print("\n ",card_to_review[n].title, card_to_review[n].topside)
+        r=input("Réponse: ")
+        if r != card_to_review[n].bottomside :
+            card_to_review[n].location = 0
+            print("Mauvaise réponse, la réponse était " , card_to_review[n].bottomside)
+        elif card_to_review[n].location <  (len(box_delay)-1) :
+            card_to_review[n].location +=1
+            print("Bonne réponse")
+            score+=1
+            card_to_review[n].flag=False
+        else :
+            card_to_review[n].flag=False
+            print("Bonne réponse")
+            score+=1
     
 
     
-print("\nPartie terminée")
-print ("Votre score est :", score, "sur", len(card_to_review))
-#fin de partie, enregistrement des cartes
-all_card=card_to_review+card_not_review
-save_card(all_card, fichier)
-        
-
-        
-    
-
+    print("\nPartie terminée")
+    print ("Votre score est :", score, "sur", len(card_to_review))
+    #fin de partie, enregistrement des cartes
+    all_card=card_to_review+card_not_review
     
     
+elif option ==2 :   #option pour ajouter une nouvelle carte
+    card_info=[""]*4
+    card_info[0]=input("Titre ? ")
+    card_info[1]=input("Question ? ")
+    card_info[2]=input("Réponse ? ")
+    card_info[3]=input("Thème ? ")
+    add_card(all_card, card_info)
+    
+elif option ==3 : # option pour modifier une carte existente
+    for i in range(len(all_card)):
+        print(i , "-", all_card[i].topside)
+    n_card=int(input("Numéro de la carte à modifier :"))
+    all_card[n_card].title=input("Titre ? ")
+    all_card[n_card].topside=input("Question ? ")
+    all_card[n_card].bottomside=input("Réponse ? ")
+    all_card[n_card].subject=input("Thème ? ")
+    
+    
+elif option ==4 : #option pour supprimer une carte du paquet
+    for i in range(len(all_card)):
+        print(i , "-", all_card[i].topside)
+    n_card=int(input("Numéro de la carte à supprimer : "))
+    if n_card<len(all_card) :
+        all_card.pop(n_card)
         
+        
+save_card(all_card, fichier)   # on sauvegarde toutes les modifications     
