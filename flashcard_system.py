@@ -92,6 +92,8 @@ def edit_flashcard(card_to_edit, new_info): #permet d'éditer les info d'une car
 #save_card(all_card,'capitales_asie')
 
 #Permet au joueur de choisir le paquet avec lequel jouer
+    
+
 print("Choisissez un thème : 1-Les capitales d'Europe 2-Les capitales d'Asie")
 choice=int(input("....:"))
 while choice!=1 and choice !=2:
@@ -132,7 +134,7 @@ print(len(card_to_review), "cartes à jouer ")
 
 random.shuffle(card_to_review) #mélange aléatoire des cartes
 #le joueur joue sur les cartes séléctionnées
-n=0
+score = 0
 for n in range( len(card_to_review) ):
     card_to_review[n].date_last_review= datetime.now()
     print("\n ",card_to_review[n].title, card_to_review[n].topside)
@@ -143,15 +145,17 @@ for n in range( len(card_to_review) ):
     elif card_to_review[n].location <  (len(box_delay)-1) :
         card_to_review[n].location +=1
         print("Bonne réponse")
+        score+=1
         card_to_review[n].flag=False
     else :
         card_to_review[n].flag=False
         print("Bonne réponse")
+        score+=1
     
 
     
 print("\nPartie terminée")
-
+print ("Votre score est :", score, "sur", len(card_to_review))
 #fin de partie, enregistrement des cartes
 all_card=card_to_review+card_not_review
 save_card(all_card, fichier)
