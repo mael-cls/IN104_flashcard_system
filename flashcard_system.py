@@ -54,13 +54,13 @@ def add_card(all_card, card_info): #ajoute une carte à la liste all_card
     all_card.append(new_card)
         
     
-def edit_flashcard(card_to_edit, new_info): #permet d'éditer les info d'une carte
+def edit_card(card_to_edit, title,topside,bottomside,subject): #permet d'éditer les info d'une carte
     
-    card_to_edit.title=new_info[0]
-    card_to_edit.topside=new_info[1]
-    card_to_edit.bottomside=new_info[2]
-    card_to_edit.subject=new_info[3]
-    card_to_edit.date_last_review=datetime.date()
+    card_to_edit.title=title
+    card_to_edit.topside=topside
+    card_to_edit.bottomside=bottomside
+    card_to_edit.subject=subject
+    card_to_edit.date_last_review=datetime.now()
     
 #Cette partie permet de créer les paquets de cartes, elle n'est ulisée qu'une seule fois pour chaque paquet
  
@@ -109,7 +109,7 @@ elif choice == 2 :
     
 # on choisit l'action à réaliser
 all_card=load_card(fichier) #charge le paquet choisi
-print("Que voulez vous faire : \n1-Jouer\n2-Ajouter une carte \n3-Modifier une carte existente \n4-Supprimer une carte\n5-Quitter le jeu")
+print("Que voulez vous faire : \n1-Jouer\n2-Ajouter une carte \n3-Modifier une carte \n4-Supprimer une carte\n5-Quitter le jeu")
 option=int(input("....:")) 
 while option != 5 :
     if option == 1 :  
@@ -183,10 +183,11 @@ while option != 5 :
         while n_card not in range(len(all_card)) :
             print("Cette carte n'existe pas, recommencez !")
             n_card=int(input("Numéro de la carte à modifier :"))
-        all_card[n_card].title=input("Titre ? ")
-        all_card[n_card].topside=input("Question ? ")
-        all_card[n_card].bottomside=input("Réponse ? ")
-        all_card[n_card].subject=input("Thème ? ")
+        title=input("Titre ? ")
+        topside=input("Question ? ")
+        bottomside=input("Réponse ? ")
+        subject=input("Thème ? ")
+        edit_card(all_card[n_card], title, topside, bottomside, subject)
     
     
     elif option ==4 : #option pour supprimer une carte du paquet
